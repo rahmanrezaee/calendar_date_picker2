@@ -68,19 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: SizedBox(
           width: 375,
-          child: ListView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildCalendarDialogButton(),
               _buildDefaultSingleDatePickerWithValue(),
-              _buildDefaultMultiDatePickerWithValue(),
-              _buildDefaultRangeDatePickerWithValue(),
-              _buildCalendarWithActionButtons(),
             ],
           ),
         ),
@@ -182,36 +177,11 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.grey,
       ),
     );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const SizedBox(height: 10),
-        const Text('Single Date Picker (With default value)'),
-        CalendarDatePicker2(
-          config: config,
-          initialValue: _singleDatePickerValueWithDefaultValue,
-          onValueChanged: (values) =>
-              setState(() => _singleDatePickerValueWithDefaultValue = values),
-          selectableDayPredicate: (day) => !day
-              .difference(DateTime.now().subtract(const Duration(days: 3)))
-              .isNegative,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Selection(s):  '),
-            const SizedBox(width: 10),
-            Text(
-              _getValueText(
-                config.calendarType,
-                _singleDatePickerValueWithDefaultValue,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 25),
-      ],
+    return CalendarDatePicker2(
+      config: config,
+      initialValue: _singleDatePickerValueWithDefaultValue,
+      onValueChanged: (values) =>
+          setState(() => _singleDatePickerValueWithDefaultValue = values),
     );
   }
 

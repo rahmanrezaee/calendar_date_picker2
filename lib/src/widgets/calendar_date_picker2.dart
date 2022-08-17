@@ -295,7 +295,7 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
         SizedBox(
           height: (widget.config.controlsHeight ?? _subHeaderHeight) +
               _maxDayPickerHeight,
-          child: _buildPicker(),
+          child: Center(child: _buildPicker()),
         ),
         // Put the mode toggle button on top so that it won't be covered up by the _MonthPicker
         _DatePickerModeToggleButton(
@@ -384,6 +384,9 @@ class _DatePickerModeToggleButtonState
       height: (widget.config.controlsHeight ?? _subHeaderHeight),
       child: Row(
         children: <Widget>[
+          if (widget.mode == DatePickerMode.day)
+            // Give space for the prev/next month buttons that are underneath this row
+            const SizedBox(width: _monthNavButtonsWidth / 2),
           Flexible(
             child: Semantics(
               label: MaterialLocalizations.of(context).selectYearSemanticsLabel,
@@ -396,6 +399,7 @@ class _DatePickerModeToggleButtonState
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Flexible(
                           child: Text(
@@ -424,7 +428,7 @@ class _DatePickerModeToggleButtonState
           ),
           if (widget.mode == DatePickerMode.day)
             // Give space for the prev/next month buttons that are underneath this row
-            const SizedBox(width: _monthNavButtonsWidth),
+            const SizedBox(width: _monthNavButtonsWidth / 2),
         ],
       ),
     );
@@ -760,7 +764,6 @@ class _MonthPickerState extends State<_MonthPicker> {
             height: (widget.config.controlsHeight ?? _subHeaderHeight),
             child: Row(
               children: <Widget>[
-                const Spacer(),
                 IconButton(
                   icon: widget.config.lastMonthIcon ??
                       const Icon(Icons.chevron_left),
@@ -771,6 +774,7 @@ class _MonthPickerState extends State<_MonthPicker> {
                   onPressed:
                       _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
+                const Spacer(),
                 IconButton(
                   icon: widget.config.nextMonthIcon ??
                       const Icon(Icons.chevron_right),
